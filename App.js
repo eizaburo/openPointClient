@@ -8,6 +8,9 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 
 import Base from './screens/Base';
 
+//stack wrap
+
+
 export default class App extends React.Component {
     render() {
         return (
