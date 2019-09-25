@@ -17,6 +17,9 @@ import Profile from './screens/Profile';
 import DrawerLeftScreen from './screens/DrawerLeft';
 import DrawerRightScreen from './screens/DrawerRight';
 
+//icon
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 //SignedOutTop
 const SignedOutTop = createStackNavigator(
     {
@@ -73,15 +76,31 @@ const SignedInTop = createBottomTabNavigator(
     {
         Home: {
             screen: HomeStack,
+            navigationOptions: {
+                title: 'ホーム',
+                tabBarIcon: ({ tintColor }) => <Icon size={24} name="home" color={tintColor} />
+            }
         },
         Point: {
             screen: PointStack,
+            title: 'ポイント',
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => <Icon size={24} name="product-hunt" color={tintColor} />
+            }
         },
         News: {
             screen: NewsStack,
+            navigationOptions: {
+                title: 'お知らせ',
+                tabBarIcon: ({ tintColor }) => <Icon size={24} name="info-circle" color={tintColor} />
+            }
         },
         Profile: {
             screen: ProfileStack,
+            navigationOptions: {
+                title: '設定',
+                tabBarIcon: ({ tintColor }) => <Icon size={24} name="user" color={tintColor} />
+            }
         },
     }
 );
