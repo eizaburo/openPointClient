@@ -7,6 +7,11 @@ class DrawerRight extends React.Component {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Text>DrawerRight</Text>
+                <Button
+                    title="ログアウト"
+                    buttonStyle={{ marginTop: 10 }}
+                    onPress={() => this.props.navigation.navigate('SignedOut')}
+                />
             </View>
         );
     }

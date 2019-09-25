@@ -14,8 +14,8 @@ import Home from './screens/Home';
 import Point from './screens/Point';
 import News from './screens/News';
 import Profile from './screens/Profile';
-import DrawerLeft from './screens/DrawerLeft';
-import DrawerRight from './screens/DrawerRight';
+import DrawerLeftScreen from './screens/DrawerLeft';
+import DrawerRightScreen from './screens/DrawerRight';
 
 //SignedOutTop
 const SignedOutTop = createStackNavigator(
@@ -86,22 +86,22 @@ const SignedInTop = createBottomTabNavigator(
     }
 );
 
-const LeftDrawer = createDrawerNavigator(
+const DrawerLeft = createDrawerNavigator(
     {
         Left: SignedInTop,
     },
     {
-        contentComponent: DrawerLeft,
+        contentComponent: DrawerLeftScreen,
         drawerPosition: 'left',
     }
 );
 
-const RightDrawer = createDrawerNavigator(
+const DrawerRight = createDrawerNavigator(
     {
-        Right: LeftDrawer,
+        Right: DrawerLeft,
     },
     {
-        contentComponent: DrawerRight,
+        contentComponent: DrawerRightScreen,
         drawerPosition: 'right',
     }
 );
@@ -110,7 +110,7 @@ const RightDrawer = createDrawerNavigator(
 const createRootNavigator = (signedIn = false) => {
     return createSwitchNavigator(
         {
-            SignedIn: { screen: RightDrawer },
+            SignedIn: { screen: DrawerRight },
             SignedOut: { screen: SignedOutTop }
         },
         {
