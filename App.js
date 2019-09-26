@@ -14,6 +14,7 @@ import Home from './screens/Home';
 import Point from './screens/Point';
 import News from './screens/News';
 import Profile from './screens/Profile';
+import Terms from './screens/Terms';
 import DrawerLeftScreen from './screens/DrawerLeft';
 import DrawerRightScreen from './screens/DrawerRight';
 
@@ -37,6 +38,9 @@ const SignedOutTop = createStackNavigator(
         },
         SignUp: {
             screen: SignUp,
+        },
+        Terms: {
+            screen: Terms,
         }
     },
     {

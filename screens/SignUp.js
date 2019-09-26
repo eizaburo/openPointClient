@@ -85,10 +85,17 @@ class SignUp extends React.Component {
                                             onBlur={handleBlur('tel')}
                                             errorMessage={errors.tel && touched.tel ? errors.tel : null}
                                         />
+                                        <Button
+                                            type="clear"
+                                            title="規約を読む"
+                                            buttonStyle={{marginTop:15}}
+                                            // titleStyle={{fontSize:9}}
+                                            onPress={()=>this.props.navigation.navigate('Terms')}
+                                        />
                                         <CheckBox
                                             center
                                             title="同意する"
-                                            containerStyle={{ marginTop: 20, borderColor: "#fff", backgroundColor: "#fff" }}
+                                            containerStyle={{ marginTop: 10, borderColor: "#fff", backgroundColor: "#fff" }}
                                             checked={values.check}
                                             onPress={() => setFieldValue('check', !values.check)}
                                         />
@@ -97,7 +104,7 @@ class SignUp extends React.Component {
                                         </Text>
                                         <Button
                                             title="新規登録"
-                                            buttonStyle={{ marginTop: 20, backgroundColor: "#3cb371" }}
+                                            buttonStyle={{ marginTop: 10, backgroundColor: "#3cb371" }}
                                             onPress={handleSubmit}
                                         />
                                     </Card>
