@@ -9,4 +9,6 @@ Openなポイントアプリのクライアント。
 * react-native-elements
 * react-native-vector-icons
 * react-native-dotenv
-* redux, react-redux, thunk
+* redux, react-redux, redux-thunk
+* firebase
+* formik yup

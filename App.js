@@ -20,6 +20,15 @@ import DrawerRightScreen from './screens/DrawerRight';
 //icon
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+//redux
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import userReducer from './reducers/user';
+
+//firebase
+import Firebase from './config/Firebase';
+
 //SignedOutTop
 const SignedOutTop = createStackNavigator(
     {
@@ -138,15 +147,51 @@ const createRootNavigator = (signedIn = false) => {
     );
 }
 
+//createStore
+const store = createStore(combineReducers({
+    userData: userReducer,
+}), applyMiddleware(
+    thunk,
+));
+
 export default class App extends React.Component {
+
+    state = {
+        signedIn: false,
+        checkSignIn: false,
+    }
+
+    componentDidMount = () => {
+
+        Firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                this.setState({
+                    signedIn: true,
+                    checkSignIn: true,
+                });
+            } else {
+                this.setState({
+                    signedIn: false,
+                    checkSignIn: true,
+                });
+            }
+        });
+
+    }
+
     render() {
 
-        const AppContainer = createAppContainer(createRootNavigator(false));
+        const { checkSignIn, signedIn } = this.state;
 
+        if (!checkSignIn) {
+            return null;
+        }
+
+        const AppContainer = createAppContainer(createRootNavigator(signedIn));
         return (
-            <View style={{ flex: 1 }}>
+            <Provider store={store}>
                 <AppContainer />
-            </View>
+            </Provider>
         );
     }
 }
