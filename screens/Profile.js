@@ -7,10 +7,21 @@ import Firebase from '../config/Firebase';
 
 class Profile extends React.Component {
 
+    state = {
+        loading: false,
+    }
+
     handleSignOut = () => {
+        this.setState({ loading: true });
         Firebase.auth().signOut()
-            .then(() => this.props.navigation.navigate('SignedOut'))
-            .catch(e => console.log("firebase signout error:" + e))
+            .then(() => {
+                this.setState({ loading: false });
+                this.props.navigation.navigate('SignedOut');
+            })
+            .catch(e => {
+                this.setState({ loading: false });
+                console.log("firebase signout error:" + e);
+            })
     }
 
     render() {
@@ -21,6 +32,7 @@ class Profile extends React.Component {
                     title="ログアウト"
                     buttonStyle={{ marginTop: 10 }}
                     onPress={this.handleSignOut}
+                    loading={this.state.loading}
                 />
             </View>
         );

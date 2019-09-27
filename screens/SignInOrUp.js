@@ -15,10 +15,21 @@ import Firebase from '../config/Firebase';
 
 class SignInOrUp extends React.Component {
 
+    state = {
+        loading: false,
+    }
+
     handleSignIn = (email, password) => {
+        this.setState({ loading: true });
         Firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('SignedIn'))
-            .catch(e => console.log("firebase signin error:" + e));
+            .then(() => {
+                this.setState({ loading: false });
+                this.props.navigation.navigate('SignedIn');
+            })
+            .catch(e => {
+                this.setState({ loading: false });
+                console.log("firebase signin error:" + e);
+            });
     }
 
     render() {
@@ -60,6 +71,7 @@ class SignInOrUp extends React.Component {
                                     title="ログイン"
                                     buttonStyle={{ marginTop: 20 }}
                                     onPress={handleSubmit}
+                                    loading={this.state.loading}
                                 />
                                 <Button
                                     title="新規登録はこちら"

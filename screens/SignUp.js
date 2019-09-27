@@ -15,10 +15,21 @@ import Firebase from '../config/Firebase';
 
 class SignUp extends React.Component {
 
+    state = {
+        loading: false,
+    }
+
     handleSignUp = (email, password) => {
+        this.setState({ loading: true });
         Firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('SignedIn'))
-            .catch(e => console.log("firebase signup error:" + e));
+            .then(() => {
+                this.setState({ loading: false });
+                this.props.navigation.navigate('SignedIn');
+            })
+            .catch(e => {
+                this.setState({ loading: false });
+                console.log("firebase signup error:" + e);
+            });
     }
 
     render() {
@@ -88,9 +99,9 @@ class SignUp extends React.Component {
                                         <Button
                                             type="clear"
                                             title="規約を読む"
-                                            buttonStyle={{marginTop:15}}
+                                            buttonStyle={{ marginTop: 15 }}
                                             // titleStyle={{fontSize:9}}
-                                            onPress={()=>this.props.navigation.navigate('Terms')}
+                                            onPress={() => this.props.navigation.navigate('Terms')}
                                         />
                                         <CheckBox
                                             center
@@ -106,6 +117,7 @@ class SignUp extends React.Component {
                                             title="新規登録"
                                             buttonStyle={{ marginTop: 10, backgroundColor: "#3cb371" }}
                                             onPress={handleSubmit}
+                                            loading={this.state.loading}
                                         />
                                     </Card>
                                 )
