@@ -26,6 +26,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import userReducer from './reducers/user';
+import { getUser } from './actions/user';
 
 //firebase
 import Firebase from './config/Firebase';
@@ -169,10 +170,18 @@ export default class App extends React.Component {
 
         Firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                this.setState({
-                    signedIn: true,
-                    checkSignIn: true,
-                });
+                store.dispatch(getUser(user.uid));
+                if (store.getState().userData.user != null) {
+                    this.setState({
+                        signedIn: true,
+                        checkSignIn: true,
+                    });
+                } else {
+                    this.setState({
+                        signedIn: false,
+                        checkSignIn: true,
+                    });
+                }
             } else {
                 this.setState({
                     signedIn: false,
@@ -185,8 +194,8 @@ export default class App extends React.Component {
 
     render() {
 
-        console.log(store.getState());
-        
+        // console.log(store.getState());
+
         const { checkSignIn, signedIn } = this.state;
 
         if (!checkSignIn) {

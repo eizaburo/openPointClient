@@ -41,7 +41,6 @@ export const signIn = () => {
             const { email, password } = getState().userData.user;
             const response = await Firebase.auth().signInWithEmailAndPassword(email, password);
             dispatch(getUser(response.user.uid));
-            // console.log(response);
         } catch (e) {
             alert(e);
         }
@@ -51,7 +50,6 @@ export const signIn = () => {
 export const getUser = uid => {
     return async (dispatch, getState) => {
         try {
-            console.log(uid);
             const user = await db.collection('users').doc(uid).get();
             dispatch({
                 type: SIGNIN,

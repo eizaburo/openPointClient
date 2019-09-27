@@ -5,6 +5,9 @@ import { Card, Input, Button } from 'react-native-elements';
 //firebase
 import Firebase from '../config/Firebase';
 
+//redux
+import { connect } from 'react-redux';
+
 class Profile extends React.Component {
 
     state = {
@@ -28,6 +31,8 @@ class Profile extends React.Component {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Text>Profile</Text>
+                <Text>email:{this.props.userData.user.email}</Text>
+                <Text>point:{this.props.userData.user.point}</Text>
                 <Button
                     title="ログアウト"
                     buttonStyle={{ marginTop: 10 }}
@@ -39,4 +44,11 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile;
+const mapStateToProps = state => (
+    {
+        userData: state.userData,
+    }
+);
+
+export default connect(mapStateToProps, null)(Profile);
+// export default Profile;
