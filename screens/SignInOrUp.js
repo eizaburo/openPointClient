@@ -4,7 +4,7 @@ import { Card, Input, Button } from 'react-native-elements';
 
 //redux
 import { connect } from 'react-redux';
-import { updateEmail, updatePassword, updateConfirm, signUp } from '../actions/user';
+import { updateEmail, updatePassword, updateConfirm, signIn } from '../actions/user';
 
 //formik, yup
 import { Formik } from 'formik';
@@ -21,15 +21,15 @@ class SignInOrUp extends React.Component {
 
     handleSignIn = (email, password) => {
         this.setState({ loading: true });
-        Firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
-                this.setState({ loading: false });
-                this.props.navigation.navigate('SignedIn');
-            })
-            .catch(e => {
-                this.setState({ loading: false });
-                console.log("firebase signin error:" + e);
-            });
+        //store
+        this.props.updateEmail(email);
+        this.props.updatePassword(password);
+        //login
+        this.props.signIn();
+    }
+
+    getUser = uid => {
+
     }
 
     render() {
@@ -98,7 +98,7 @@ const mapDispatchToProps = dispatch => (
         updateEmail: email => dispatch(updateEmail(email)),
         updatePassword: password => dispatch(updatePassword(password)),
         updateConfirm: confirm => dispatch(updateConfirm(confirm)),
-        signUp: () => dispatch(signUp()),
+        signIn: () => dispatch(signIn()),
     }
 );
 

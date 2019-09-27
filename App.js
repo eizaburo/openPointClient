@@ -185,6 +185,8 @@ export default class App extends React.Component {
 
     render() {
 
+        console.log(store.getState());
+        
         const { checkSignIn, signedIn } = this.state;
 
         if (!checkSignIn) {

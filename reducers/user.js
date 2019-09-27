@@ -2,22 +2,33 @@ import { SIGNIN, SIGNUP, UPDATE_EMAIL, UPDATE_PASSWORD, UPDATE_CONFIRM, UPDATE_T
 
 const initialState = {
     user: {
-        uid: '',
-        point: 0,
-        email: '',
-        password: '',
-        confirm: '',
-        tel: ''
+        // uid: '',
+        // point: 0,
+        // email: '',
+        // password: '',
+        // confirm: '',
+        // tel: ''
     }
 }
 
 const user = (state = initialState, action) => {
-    console.log(state);
     switch (action.type) {
         case SIGNIN:
-            return action.payload;
+            return {
+                user: {
+                    email: action.payload.email,
+                    point: action.payload.point,
+                    uid: action.payload.uid,
+                }
+            }
         case SIGNUP:
-            return action.payload;
+            return {
+                user: {
+                    email: state.user.email,
+                    uid: action.payload.uid,
+                    point: action.payload.point,
+                }
+            };
         case UPDATE_EMAIL:
             let mailState = { ...state };
             mailState.user.email = action.payload;

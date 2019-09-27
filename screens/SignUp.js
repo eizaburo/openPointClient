@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 //firebase
-import Firebase from '../config/Firebase';
+import Firebase, { db } from '../config/Firebase';
 
 class SignUp extends React.Component {
 
@@ -19,17 +19,14 @@ class SignUp extends React.Component {
         loading: false,
     }
 
-    handleSignUp = (email, password) => {
+    handleSignUp = async (email, password) => {
+        //spinner
         this.setState({ loading: true });
-        Firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                this.setState({ loading: false });
-                this.props.navigation.navigate('SignedIn');
-            })
-            .catch(e => {
-                this.setState({ loading: false });
-                console.log("firebase signup error:" + e);
-            });
+        //storeに保存
+        this.props.updateEmail(email);
+        this.props.updatePassword(password);
+        //action呼び出し
+        this.props.signUp();
     }
 
     render() {
