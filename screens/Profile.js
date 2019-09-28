@@ -8,6 +8,9 @@ import Firebase from '../config/Firebase';
 //redux
 import { connect } from 'react-redux';
 
+//moment
+import moment from 'moment';
+
 class Profile extends React.Component {
 
     state = {
@@ -33,6 +36,8 @@ class Profile extends React.Component {
                 <Text>Profile</Text>
                 <Text>email:{this.props.userData.user.email}</Text>
                 <Text>point:{this.props.userData.user.point}</Text>
+                {/* moment(seconds * 1000).add(9,'hours').format('YYYY/MM/DD HH:mm:ss') */}
+                <Text>登録日時:{moment(this.props.userData.user.createdAt.seconds*1000).format('YYYY/MM/DD HH:mm:ss')}</Text>
                 <Button
                     title="ログアウト"
                     buttonStyle={{ marginTop: 10 }}

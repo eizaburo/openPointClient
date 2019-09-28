@@ -19,6 +19,7 @@ const user = (state = initialState, action) => {
                     email: action.payload.email,
                     point: action.payload.point,
                     uid: action.payload.uid,
+                    createdAt: action.payload.createdAt,
                 }
             }
         case SIGNUP:
@@ -27,6 +28,7 @@ const user = (state = initialState, action) => {
                     email: state.user.email,
                     uid: action.payload.uid,
                     point: action.payload.point,
+                    createdAt: action.payload.createdAt,
                 }
             };
         case UPDATE_EMAIL:

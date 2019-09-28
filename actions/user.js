@@ -1,4 +1,5 @@
 import Firebase, { db } from '../config/Firebase';
+import firebase from 'firebase';
 
 export const UPDATE_EMAIL = 'UPDATE_EMAIL';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
@@ -71,7 +72,8 @@ export const signUp = () => {
                 const user = {
                     uid: response.user.uid,
                     email: email,
-                    point: 0
+                    point: 0,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 }
 
                 db.collection('users').doc(response.user.uid).set(user);

@@ -12,3 +12,4 @@ Openなポイントアプリのクライアント。
 * redux, react-redux, redux-thunk
 * firebase
 * formik yup
+* moment
