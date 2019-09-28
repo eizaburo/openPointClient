@@ -13,3 +13,4 @@ Openなポイントアプリのクライアント。
 * firebase
 * formik yup
 * moment
+* expo-linear-gradient
