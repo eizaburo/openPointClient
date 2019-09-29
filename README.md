@@ -21,3 +21,7 @@ Openなポイントアプリのクライアント。
 * expo install expo-barcode-scanner
 * expo-permissions
 * react-native-loading-spinner-overlay
+
+## 検討コンポーネント
+
+* react-native-app-intro
