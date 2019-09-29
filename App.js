@@ -20,6 +20,7 @@ import DrawerRightScreen from './screens/DrawerRight';
 
 //icon
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon5 from 'react-native-vector-icons/FontAwesome5';
 
 //redux
 import { createStore, combineReducers, applyMiddleware } from 'redux';
@@ -97,9 +98,9 @@ const SignedInTop = createBottomTabNavigator(
         },
         Point: {
             screen: PointStack,
-            title: 'ポイント',
             navigationOptions: {
-                tabBarIcon: ({ tintColor }) => <Icon size={24} name="product-hunt" color={tintColor} />
+                title: '履歴',
+                tabBarIcon: ({ tintColor }) => <Icon5 size={24} name="receipt" color={tintColor} />
             }
         },
         News: {

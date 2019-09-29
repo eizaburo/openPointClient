@@ -14,3 +14,4 @@ Openなポイントアプリのクライアント。
 * formik yup
 * moment
 * expo-linear-gradient
+* react-native-snap-carousel

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableHighlight, Dimensions, Image, Linking } from 'react-native';
 import { Card, Input, Button } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -7,8 +7,33 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
 import { updateEmail } from '../actions/user';
 
+//data
+import { caroucel_data } from '../data/caroucel';
+
+//caroucel
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+
 class Home extends React.Component {
+
+    state = {
+        data: caroucel_data,
+        activeSlide: 0,
+    }
+
+    _renderItem = ({ item, index }) => {
+        return (
+            <TouchableHighlight
+                onPress={() => Linking.openURL(item.url)}
+            >
+                <Image source={{ url: item.url }} style={{ width: '100%', height: '100%' }} />
+            </TouchableHighlight>
+        );
+    }
+
     render() {
+
+        // console.log(this.state.data);
+
         return (
             <View style={{ flex: 1, alignItems: 'center' }}>
                 <TouchableHighlight
@@ -102,6 +127,24 @@ class Home extends React.Component {
                         title="履歴を見る"
                         containerStyle={{ marginHorizontal: 30 }}
                         buttonStyle={{ height: 60, borderWidth: 1 }}
+                    />
+                </View>
+                <Text style={{ marginVertical: 20 }}>おすすめ情報</Text>
+                <View style={{ height: 180 }}>
+                    <Carousel
+                        data={this.state.data}
+                        renderItem={this._renderItem}
+                        itemWidth={Dimensions.get("window").width * 0.6}
+                        itemHeight={200}
+                        sliderWidth={Dimensions.get("window").width * 1.0}
+                        // containerCustomStyle={{ backgroundColor: "#eee" }}
+                        loop
+                        autoplay
+                    />
+                    <Pagination
+                        dotsLength={this.state.data.length}
+                        activeDotIndex={this.state.activeSlide}
+                        containerStyle={{ paddingVertical: 10 }}
                     />
                 </View>
             </View>
