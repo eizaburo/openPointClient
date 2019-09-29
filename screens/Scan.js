@@ -56,7 +56,7 @@ class Scan extends React.Component {
                     style={[StyleSheet.absoluteFill, styles.container]}
                 >
                     <View style={styles.layerTop} >
-                        <Text style={styles.description}>Scan QR code</Text>
+                        <Text style={styles.description}>Scan QR/Barcode</Text>
                     </View>
 
                     <View style={styles.layerCenter}>
@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
         backgroundColor: opacity
     },
     description: {
-        fontSize: 25,
-        marginTop: '20%',
+        fontSize: 20,
+        marginTop: '15%',
         textAlign: 'center',
         color: 'white',
     },
@@ -122,6 +122,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         color: 'white',
-        marginTop: '20%',
+        marginTop: '15%',
     },
 });
