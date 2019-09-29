@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableHighlight, Dimensions, Image, Linking } from 'react-native';
 import { Card, Input, Button } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 //redux
 import { connect } from 'react-redux';
@@ -18,6 +19,7 @@ class Home extends React.Component {
     state = {
         data: caroucel_data,
         activeSlide: 0,
+        overlaySpinner: false,
     }
 
     _renderItem = ({ item, index }) => {
@@ -151,6 +153,13 @@ class Home extends React.Component {
                         containerStyle={{ paddingVertical: 10 }}
                     />
                 </View>
+                <Spinner
+                    visible={this.state.overlaySpinner}
+                    // visible={true}
+                    textContent="読込中..."
+                    textStyle={{ color: "#fff" }}
+                    overlayColor="rgba(0,0,0,0.5)"
+                />
             </View>
         );
     }
