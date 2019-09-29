@@ -25,3 +25,4 @@ Openなポイントアプリのクライアント。
 ## 検討コンポーネント
 
 * react-native-app-intro
+* react-native-scrollable-tab-view
