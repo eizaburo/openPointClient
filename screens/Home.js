@@ -41,7 +41,7 @@ class Home extends React.Component {
                         marginTop: 20,
                     }}
                     underlayColor="#fff"
-                    onPress={() => alert("press")}
+                    onPress={() => this.props.navigation.navigate('_History')}
                 >
                     <LinearGradient
                         colors={['#393FFF', '#44A5FF']}
@@ -141,6 +141,7 @@ class Home extends React.Component {
                         itemHeight={200}
                         sliderWidth={Dimensions.get("window").width * 1.0}
                         // containerCustomStyle={{ backgroundColor: "#eee" }}
+                        onSnapToItem={index => this.setState({ activeSlide: index })}
                         loop
                         autoplay
                     />
