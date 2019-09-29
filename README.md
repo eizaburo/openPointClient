@@ -20,3 +20,4 @@ Openなポイントアプリのクライアント。
 * react-native-svg react-native-qrcode-svg
 * expo install expo-barcode-scanner
 * expo-permissions
+* react-native-loading-spinner-overlay
