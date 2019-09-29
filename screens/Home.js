@@ -113,7 +113,7 @@ class Home extends React.Component {
                         <Button
                             type="outline"
                             title="QRを読み取る"
-                            onPress={() => this.props.navigation.navigate('_Mpm')}
+                            onPress={() => this.props.navigation.navigate('_Scan')}
                             containerStyle={{
                                 marginVertical: 20,
                                 marginLeft: 10,
