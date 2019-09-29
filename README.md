@@ -15,3 +15,6 @@ Openなポイントアプリのクライアント。
 * moment
 * expo-linear-gradient
 * react-native-snap-carousel
+* react-native-qrcode (not working)
+* react-native-barcode-builder
+* react-native-svg react-native-qrcode-svg

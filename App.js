@@ -17,6 +17,10 @@ import Profile from './screens/Profile';
 import Terms from './screens/Terms';
 import DrawerLeftScreen from './screens/DrawerLeft';
 import DrawerRightScreen from './screens/DrawerRight';
+import Cpm from './screens/Cpm';
+import Mpm from './screens/Mpm';
+import History from './screens/History';
+import Scan from './screens/Scan';
 
 //icon
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -57,6 +61,22 @@ const HomeStack = createStackNavigator(
     {
         _Home: {
             screen: Home,
+            navigationOptions: ({ navigation }) => ({
+                headerLeft: (<Icon name="bars" size={24} onPress={() => alert("左ボタン")} style={{ paddingLeft: 20 }} />),
+                headerRight: (<Icon name="cog" size={24} onPress={() => alert("右ボタン")} style={{ paddingRight: 20 }} />),
+            })
+        },
+        _Cpm: {
+            screen: Cpm,
+        },
+        _Mpm: {
+            screen: Mpm,
+        },
+        _History: {
+            screen: History,
+        },
+        _Scan: {
+            screen: Scan,
         }
     }
 );
@@ -85,6 +105,15 @@ const ProfileStack = createStackNavigator(
     }
 );
 
+const HistoryStack = createStackNavigator(
+    {
+        _History: {
+            screen: History,
+        }
+    }
+);
+
+
 //SignedInTop
 
 const SignedInTop = createBottomTabNavigator(
@@ -96,8 +125,8 @@ const SignedInTop = createBottomTabNavigator(
                 tabBarIcon: ({ tintColor }) => <Icon size={24} name="home" color={tintColor} />
             }
         },
-        Point: {
-            screen: PointStack,
+        History: {
+            screen: HistoryStack,
             navigationOptions: {
                 title: '履歴',
                 tabBarIcon: ({ tintColor }) => <Icon5 size={24} name="receipt" color={tintColor} />

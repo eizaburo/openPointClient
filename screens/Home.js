@@ -100,6 +100,7 @@ class Home extends React.Component {
                         <Button
                             type="outline"
                             title="QRを表示する"
+                            onPress={() => this.props.navigation.navigate('_Cpm')}
                             containerStyle={{
                                 marginVertical: 20,
                                 marginLeft: 30,
@@ -112,6 +113,7 @@ class Home extends React.Component {
                         <Button
                             type="outline"
                             title="QRを読み取る"
+                            onPress={() => this.props.navigation.navigate('_Mpm')}
                             containerStyle={{
                                 marginVertical: 20,
                                 marginLeft: 10,
@@ -125,6 +127,7 @@ class Home extends React.Component {
                     <Button
                         type="outline"
                         title="履歴を見る"
+                        onPress={() => this.props.navigation.navigate('_History')}
                         containerStyle={{ marginHorizontal: 30 }}
                         buttonStyle={{ height: 60, borderWidth: 1 }}
                     />
