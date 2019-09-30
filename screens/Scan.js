@@ -56,7 +56,14 @@ class Scan extends React.Component {
                     style={[StyleSheet.absoluteFill, styles.container]}
                 >
                     <View style={styles.layerTop} >
-                        <Text style={styles.description}>Scan QR/Barcode</Text>
+                        <Text
+                            style={styles.description}
+                            onPress={() => this.props.navigation.navigate('_Mpm', {
+                                status: 'OK',
+                                type: 'QR',
+                                data: '1234567890',
+                            })}
+                        >Scan QR/Barcode</Text>
                     </View>
 
                     <View style={styles.layerCenter}>
