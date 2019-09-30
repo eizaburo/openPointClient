@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { ThemeProvider } from 'react-native-elements';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -189,12 +190,24 @@ const store = createStore(combineReducers({
     thunk,
 ));
 
+//theme
+
+const theme = {
+    colors: {
+        buttonColor1: '#2089dc',
+        buttonColor2: '#3cb371',
+        buttonColor3: '#708090',
+        sendValue: '#4169e1',
+        reciveValue: '#ff69b4',
+    }
+}
+
 export default class App extends React.Component {
 
     constructor(props) {
         super(props);
 
-        //warning対応
+        //AndroidでのWarning対応
         // global.__old_console_warn = global.__old_console_warn || console.warn;
         // global.console.warn = (...args) => {
         //     let tst = (args[0] || '') + '';
@@ -249,7 +262,9 @@ export default class App extends React.Component {
         const AppContainer = createAppContainer(createRootNavigator(signedIn));
         return (
             <Provider store={store}>
-                <AppContainer />
+                <ThemeProvider theme={theme}>
+                    <AppContainer />
+                </ThemeProvider>
             </Provider>
         );
     }
