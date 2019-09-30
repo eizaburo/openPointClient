@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { Card, Input, Button, withTheme } from 'react-native-elements';
 
+//redux
+import { connect } from 'react-redux';
+
 class Mpm extends React.Component {
     render() {
 
@@ -40,12 +43,12 @@ class Mpm extends React.Component {
                     <Button
                         title="もう一度読む"
                         buttonStyle={{ marginTop: 20, backgroundColor: this.props.theme.colors.buttonColor3 }}
-                        onPress={()=>this.props.navigation.navigate('_Scan')}
+                        onPress={() => this.props.navigation.navigate('_Scan')}
                     />
                     <Button
                         title="Homeに戻る"
                         buttonStyle={{ marginTop: 20, backgroundColor: this.props.theme.colors.buttonColor3 }}
-                        onPress={()=>this.props.navigation.navigate('_Home')}
+                        onPress={() => this.props.navigation.navigate('_Home')}
                     />
                 </Card>
             </View>
@@ -53,4 +56,10 @@ class Mpm extends React.Component {
     }
 }
 
-export default withTheme(Mpm);
+const mapStateToProps = state => (
+    {
+        userData: state.userData,
+    }
+);
+
+export default connect(mapStateToProps, null)(withTheme(Mpm));
