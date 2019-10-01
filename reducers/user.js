@@ -1,4 +1,12 @@
-import { SIGNIN, SIGNUP, UPDATE_EMAIL, UPDATE_PASSWORD, UPDATE_CONFIRM, UPDATE_TEL } from '../actions/user';
+import {
+    SIGNIN,
+    SIGNUP,
+    UPDATE_EMAIL,
+    UPDATE_PASSWORD,
+    UPDATE_CONFIRM,
+    UPDATE_TEL,
+    UPDATE_POINT
+} from '../actions/user';
 
 const initialState = {
     user: {
@@ -47,6 +55,10 @@ const user = (state = initialState, action) => {
             let telState = { ...state };
             telState.user.tel = action.payload;
             return telState;
+        case UPDATE_POINT:
+            let pointState = { ...state };
+            pointState.user.point = action.payload;
+            return pointState;
         default:
             return state;
     }

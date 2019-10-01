@@ -61,7 +61,7 @@ class Scan extends React.Component {
                             onPress={() => this.props.navigation.navigate('_Mpm', {
                                 status: 'OK',
                                 type: 'QR',
-                                data: '1234567890',
+                                data: 'IR6db6rlguTKorNNSrWOerIVbmH2',
                             })}
                         >Scan QR/Barcode</Text>
                     </View>

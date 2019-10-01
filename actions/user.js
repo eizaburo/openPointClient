@@ -5,6 +5,8 @@ export const UPDATE_EMAIL = 'UPDATE_EMAIL';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 export const UPDATE_CONFIRM = 'UPDATE_CONFIRM';
 export const UPDATE_TEL = 'UPDATE_TEL';
+export const UPDATE_POINT = 'UPDATE_POINT';
+
 export const SIGNIN = 'SIGNIN';
 export const SIGNUP = 'SIGNUP';
 
@@ -33,6 +35,13 @@ export const updateTel = tel => {
     return {
         type: UPDATE_TEL,
         payload: tel,
+    }
+}
+
+export const updatePoint = point => {
+    return {
+        type: UPDATE_POINT,
+        payload: point,
     }
 }
 
