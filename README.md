@@ -26,4 +26,4 @@ Openなポイントアプリのクライアント。
 
 * react-native-app-intro
 * react-native-scrollable-tab-view
-* https://github.com/douglasjunior/react-native-simple-dialogs
+* react-native-simple-dialogs
