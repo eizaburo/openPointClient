@@ -248,14 +248,14 @@ export default class App extends React.Component {
         super(props);
 
         //AndroidでのWarning対応
-        // global.__old_console_warn = global.__old_console_warn || console.warn;
-        // global.console.warn = (...args) => {
-        //     let tst = (args[0] || '') + '';
-        //     if (tst.startsWith('Setting a timer')) {
-        //         return;
-        //     }
-        //     return global.__old_console_warn.apply(console, args);
-        // };
+        global.__old_console_warn = global.__old_console_warn || console.warn;
+        global.console.warn = (...args) => {
+            let tst = (args[0] || '') + '';
+            if (tst.startsWith('Setting a timer')) {
+                return;
+            }
+            return global.__old_console_warn.apply(console, args);
+        };
     }
 
     state = {
