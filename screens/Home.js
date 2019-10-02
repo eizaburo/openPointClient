@@ -47,6 +47,8 @@ class Home extends React.Component {
                 >
                     <LinearGradient
                         colors={['#393FFF', '#44A5FF']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 0.3, y: 1.2 }}
                         style={{ height: 200, width: 320, borderRadius: 10 }}
                     >
                         <Text
