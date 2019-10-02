@@ -5,7 +5,7 @@ import { ThemeProvider } from 'react-native-elements';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator, DrawerActions } from 'react-navigation-drawer';
 
 //screens
 import Base from './screens/Base';
@@ -66,8 +66,8 @@ const HomeStack = createStackNavigator(
         _Home: {
             screen: Home,
             navigationOptions: ({ navigation }) => ({
-                headerLeft: (<Icon name="bars" size={24} onPress={() => alert("左ボタン")} style={{ paddingLeft: 20 }} />),
-                headerRight: (<Icon name="cog" size={24} onPress={() => alert("右ボタン")} style={{ paddingRight: 20 }} />),
+                headerLeft: (<Icon name="bars" size={24} onPress={() => navigation.toggleLeftDrawer()} style={{ paddingLeft: 20 }} />),
+                headerRight: (<Icon name="cog" size={24} onPress={() => navigation.toggleRightDrawer()} style={{ paddingRight: 20 }} />),
             })
         },
         _Cpm: {
@@ -141,8 +141,9 @@ const SignedInTop = createBottomTabNavigator(
             navigationOptions: {
                 title: 'お知らせ',
                 // tabBarIcon: ({ tintColor }) => <Icon size={24} name="info-circle" color={tintColor} />
+                //タブクリックイベントを実装
                 tabBarOnPress: ({ navigation, defaultHandler }) => {
-                    console.log("hoge");
+                    console.log("news tab click.");
                     defaultHandler();
                 },
                 tabBarIcon: ({ tintColor }) => (
@@ -184,6 +185,12 @@ const DrawerLeft = createDrawerNavigator(
     {
         contentComponent: DrawerLeftScreen,
         drawerPosition: 'left',
+        getCustomActionCreators: (route, stateKey) => {
+            // console.log("LEFT" + stateKey);
+            return {
+                toggleLeftDrawer: () => DrawerActions.toggleDrawer({ key: stateKey }),
+            };
+        },
     }
 );
 
@@ -194,6 +201,12 @@ const DrawerRight = createDrawerNavigator(
     {
         contentComponent: DrawerRightScreen,
         drawerPosition: 'right',
+        getCustomActionCreators: (route, stateKey) => {
+            // console.log("RIGHT" + stateKey)
+            return {
+                toggleRightDrawer: () => DrawerActions.toggleDrawer({ key: stateKey }),
+            };
+        },
     }
 );
 
