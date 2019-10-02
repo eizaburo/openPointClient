@@ -58,6 +58,7 @@ class Mpm extends React.Component {
                     // //自分の減算処理
                     const myNowPoint = myDoc.data().point;
                     myNewPoint = Number(myNowPoint) - Number(values.point);
+                    if(myNewPoint < 0) throw new Error("残高が不足しています。");
                     await transaction.update(myDocRef, {
                         point: myNewPoint,
                     })
@@ -77,8 +78,6 @@ class Mpm extends React.Component {
 
                     tranId = tran.id;
 
-                    //トランザクション確認用エラーthrow
-                    // throw "hoge";
                 });
 
                 //表示更新
@@ -93,6 +92,7 @@ class Mpm extends React.Component {
             } catch (e) {
                 //spinner off
                 this.setState({ send_spinner: false });
+                alert(e.message);
                 console.log(e);
             }
 
@@ -118,6 +118,7 @@ class Mpm extends React.Component {
                     //相手の減算処理
                     const yourNowPoint = yourDoc.data().point;
                     const yourNewPoint = Number(yourNowPoint) - Number(values.point);
+                    if (yourNewPoint < 0) throw new Error("送り元の残高が不足しています。");
                     await transaction.update(yourDocRef, {
                         point: yourNewPoint,
                     });
@@ -145,19 +146,22 @@ class Mpm extends React.Component {
                     tranId = tran.id;
 
                 });
+
+                //表示更新
+                this.props.updatePoint(myNewPoint);
+
+                //spinner off
+                this.setState({ recive_spinner: false });
+
+                //alert
+                alert("処理完了:" + tranId);
+
             } catch (e) {
+                //spinner off
+                this.setState({ recive_spinner: false });
+                alert(e.message);
                 console.log(e);
             }
-
-            //表示更新
-            this.props.updatePoint(myNewPoint);
-
-            //spinner off
-            this.setState({ recive_spinner: false });
-
-            //alert
-            alert("処理完了:" + tranId);
-
         }
 
         //その他
@@ -181,7 +185,17 @@ class Mpm extends React.Component {
                     onSubmit={values => this.handleOnSubmit(values)}
                     validationSchema={Yup.object().shape({
                         uid: Yup.string().min(10, '不正です。').max(30, '不正です。').required(),
-                        point: Yup.string().matches(/^[1-9][0-9]{0,3}$/, '1以上9999以下の数字を入力して下さい。').required(),
+                        point: Yup.string().matches(/^[1-9][0-9]{0,3}$/, '1以上9999以下の数字を入力して下さい。').test(
+                            'point-check',
+                            '残高が足りません。',
+                            (value) => {
+                                if (value > this.props.userData.user.point) {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            }
+                        ).required(),
                     })}
                 >
                     {
