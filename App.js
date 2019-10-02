@@ -37,6 +37,9 @@ import { getUser, updatePoint } from './actions/user';
 //firebase
 import Firebase, { db } from './config/Firebase';
 
+//badge
+import IconBadge from 'react-native-icon-badge';
+
 //SignedOutTop
 const SignedOutTop = createStackNavigator(
     {
@@ -137,7 +140,31 @@ const SignedInTop = createBottomTabNavigator(
             screen: NewsStack,
             navigationOptions: {
                 title: 'お知らせ',
-                tabBarIcon: ({ tintColor }) => <Icon size={24} name="info-circle" color={tintColor} />
+                // tabBarIcon: ({ tintColor }) => <Icon size={24} name="info-circle" color={tintColor} />
+                tabBarOnPress: ({ navigation, defaultHandler }) => {
+                    console.log("hoge");
+                    defaultHandler();
+                },
+                tabBarIcon: ({ tintColor }) => (
+                    <IconBadge
+                        MainElement={
+                            <Icon size={24} name="info-circle" color={tintColor} />
+                        }
+                        BadgeElement={
+                            <Text style={{ color: "#fff" }}></Text>
+                        }
+                        IconBadgeStyle={{
+                            height: 11,
+                            width: 11,
+                            position: 'absolute',
+                            minWidth: 5,
+                            top: 0,
+                            right: 0
+                        }}
+                        Hidden={false}
+                    />
+                )
+
             }
         },
         Profile: {
@@ -229,10 +256,16 @@ export default class App extends React.Component {
             if (user) {
                 store.dispatch(getUser(user.uid));
                 if (store.getState().userData.user != null) {
+
                     this.setState({
                         signedIn: true,
                         checkSignIn: true,
                     });
+
+                    //サブスクライブ（自分のDocを監視）
+                    this.docRef = db.collection('users').doc(user.uid);
+                    this.doc_unsubscribe = this.docRef.onSnapshot(this.onDocumentUpdate);
+
                 } else {
                     this.setState({
                         signedIn: false,
@@ -246,16 +279,6 @@ export default class App extends React.Component {
                 });
             }
         });
-
-        //自分のDBの変化を監視
-        Firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                this.docRef = db.collection('users').doc(user.uid);
-                this.doc_unsubscribe = this.docRef.onSnapshot(this.onDocumentUpdate);
-            } else {
-                console.log('no user');
-            }
-        })
     }
 
     onDocumentUpdate = (querySnapShot) => {
