@@ -27,49 +27,75 @@ class Mpm extends React.Component {
         //パラメター取得・設定
         const myUid = this.props.userData.user.uid;
         const yourUid = values.uid;
+
         const myDocRef = db.collection('users').doc(myUid);
         const yourDocRef = db.collection('users').doc(yourUid);
-
-        const yourDoc = await yourDocRef.get();
-        const yourNowPoint = yourDoc.data().point;
-
-        const myDoc = await myDocRef.get();
-        const myNowPoint = myDoc.data().point;
 
         //送信処理
         if (values.operation === "SEND") {
             //spinner on
             this.setState({ send_spinner: true });
 
-            //相手の加算処理
-            const yourNewPoint = Number(yourNowPoint) + Number(values.point);
-            await yourDocRef.update({ point: yourNewPoint });
+            let tranId = '';
+            let myNewPoint = 0;
 
-            //自分の減算処理
-            const myNewPoint = Number(myNowPoint) - Number(values.point);
-            await myDocRef.update({ point: myNewPoint });
+            try {
+                await db.runTransaction(async transaction => {
 
-            //トランザクション情報書き込み
-            const tran = await db.collection('transactions').add({
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                operation: values.operation,
-                to: yourUid,
-                from: myUid,
-                point: values.point,
-                myNowPoint: myNowPoint,
-                myNewPoint: myNewPoint,
-                yourNowPoint: yourNowPoint,
-                yourNewPoint: yourNewPoint,
-            });
+                    //一度にリファレンスを取得（個別だとエラーになる。。。）
+                    const [yourDoc, myDoc] = await Promise.all([
+                        transaction.get(yourDocRef),
+                        transaction.get(myDocRef),
+                    ]);
 
-            //表示更新
-            this.props.updatePoint(myNewPoint);
+                    //相手に加算
+                    const yourNowPoint = yourDoc.data().point;
+                    const yourNewPoint = Number(yourNowPoint) + Number(values.point);
+                    await transaction.update(yourDocRef, {
+                        point: yourNewPoint,
+                    });
 
-            //spinner off
-            this.setState({ send_spinner: false });
+                    // //自分の減算処理
+                    const myNowPoint = myDoc.data().point;
+                    myNewPoint = Number(myNowPoint) - Number(values.point);
+                    await transaction.update(myDocRef, {
+                        point: myNewPoint,
+                    })
 
-            //alert
-            alert("処理完了:" + tran.id);
+                    //トランザクション情報書き込み（これはトランザクション処理ではない）
+                    const tran = await db.collection('transactions').add({
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        operation: values.operation,
+                        to: yourUid,
+                        from: myUid,
+                        point: values.point,
+                        myNowPoint: myNowPoint,
+                        myNewPoint: myNewPoint,
+                        yourNowPoint: yourNowPoint,
+                        yourNewPoint: yourNewPoint,
+                    });
+
+                    tranId = tran.id;
+
+                    //トランザクション確認用エラーthrow
+                    // throw "hoge";
+                });
+
+                //表示更新
+                this.props.updatePoint(myNewPoint);
+
+                //spinner off
+                this.setState({ send_spinner: false });
+
+                //alert
+                alert("処理完了:" + tranId);
+
+            } catch (e) {
+                //spinner off
+                this.setState({ send_spinner: false });
+                console.log(e);
+            }
+
         }
         //受信処理
         if (values.operation === "RECIVE") {
@@ -77,26 +103,51 @@ class Mpm extends React.Component {
             //spinner on
             this.setState({ recive_spinner: true });
 
-            //相手の減算処理
-            const yourNewPoint = Number(yourNowPoint) - Number(values.point);
-            await yourDocRef.update({ point: yourNewPoint });
+            let tranId = '';
+            let myNewPoint = 0;
 
-            //自分の加算処理
-            const myNewPoint = Number(myNowPoint) + Number(values.point);
-            await myDocRef.update({ point: myNewPoint });
+            try {
+                await db.runTransaction(async transaction => {
 
-            //トランザクション情報書き込み
-            const tran = await db.collection('transactions').add({
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                operation: values.operation,
-                to: myUid,
-                from: yourUid,
-                point: values.point,
-                myNowPoint: myNowPoint,
-                myNewPoint: myNewPoint,
-                yourNowPoint: yourNowPoint,
-                yourNewPoint: yourNewPoint,
-            });
+                    //一度にリファレンスを取得（個別だとエラーになる。。。）
+                    const [yourDoc, myDoc] = await Promise.all([
+                        transaction.get(yourDocRef),
+                        transaction.get(myDocRef),
+                    ]);
+
+                    //相手の減算処理
+                    const yourNowPoint = yourDoc.data().point;
+                    const yourNewPoint = Number(yourNowPoint) - Number(values.point);
+                    await transaction.update(yourDocRef, {
+                        point: yourNewPoint,
+                    });
+
+                    //自分の加算処理
+                    const myNowPoint = myDoc.data().point;
+                    myNewPoint = Number(myNowPoint) + Number(values.point);
+                    await transaction.update(myDocRef, {
+                        point: myNewPoint,
+                    })
+
+                    //トランザクション情報書き込み
+                    const tran = await db.collection('transactions').add({
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        operation: values.operation,
+                        to: myUid,
+                        from: yourUid,
+                        point: values.point,
+                        myNowPoint: myNowPoint,
+                        myNewPoint: myNewPoint,
+                        yourNowPoint: yourNowPoint,
+                        yourNewPoint: yourNewPoint,
+                    });
+
+                    tranId = tran.id;
+
+                });
+            } catch (e) {
+                console.log(e);
+            }
 
             //表示更新
             this.props.updatePoint(myNewPoint);
@@ -105,7 +156,7 @@ class Mpm extends React.Component {
             this.setState({ recive_spinner: false });
 
             //alert
-            alert("処理完了:" + tran.id);
+            alert("処理完了:" + tranId);
 
         }
 
