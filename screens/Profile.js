@@ -38,6 +38,7 @@ class Profile extends React.Component {
                     <Avatar
                         size="medium"
                         title="OP"
+                        source={{ uri: "http://www.bluecode.jp/images/shiro.jpg" }}
                         rounded
                         onPress={()=>alert("変更しますか?")}
                     />
