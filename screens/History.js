@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, FlatList, ActivityIndicator } from 'react-native';
 import { Card, Input, Button, ListItem } from 'react-native-elements';
 
 //firebase
@@ -32,6 +32,8 @@ class History extends React.Component {
     retrieveData = async () => {
         try {
 
+            this.setState({ refreshing: true });
+
             let initialQuery = await db.collection('transactions')
                 .orderBy('createdAt', 'desc')
                 .limit(this.state.limit);
@@ -48,6 +50,8 @@ class History extends React.Component {
                 loading: false,
             });
 
+            this.setState({ refreshing: false });
+
         } catch (e) {
             console.log(e);
         }
@@ -55,6 +59,8 @@ class History extends React.Component {
 
     retrieveMore = async () => {
         try {
+
+            this.setState({ loading: true });
 
             let additionalQuery = await db.collection('transactions')
                 .orderBy('createdAt', 'desc')
@@ -70,9 +76,9 @@ class History extends React.Component {
 
                 //もうページがない
                 this.setState({
-                    documentData: [...this.state.documentData, ...documentData],
+                    documentData: [...this.state.documentData],
                     lastVisible: this.state.lastVisible,
-                    refreshing: false,
+                    loading: false,
                 });
 
             } else {
@@ -82,15 +88,28 @@ class History extends React.Component {
                 this.setState({
                     documentData: [...this.state.documentData, ...documentData],
                     lastVisible: lastVisible,
-                    refreshing: false,
+                    loading: false,
                 });
             }
 
-
-
+            this.setState({ loading: false });
 
         } catch (e) {
             console.log(e);
+        }
+    }
+
+    renderHeader = () => {
+        return (
+            <Text style={{ fontSize: 18, alignSelf: 'stretch', backgroundColor: "#eee", padding: 15, textAlign: 'center' }}>利用履歴</Text>
+        );
+    }
+
+    renderFooter = () => {
+        if (this.state.loading) {
+            return (<ActivityIndicator style={{ margin: 20 }} />);
+        } else {
+            return null;
         }
     }
 
@@ -102,18 +121,23 @@ class History extends React.Component {
                     data={this.state.documentData}
                     keyExtractor={(item, index) => String(index)}
                     renderItem={({ item }) => (
-                        <View style={{ borderBottomColor: "#ddd", borderBottomWidth: 1, padding: 10, alignSelf: 'stretch' }}>
-                            <Text>Transaction Date: {moment(item.createdAt.seconds * 1000).format('YYYY-MM-DD hh:mm:ss')}</Text>
+                        <View style={{ borderBottomColor: "#ccc", borderBottomWidth: 1, padding: 10, alignSelf: 'stretch' }}>
+                            <Text>Transaction Date: {moment(item.createdAt.seconds * 1000).format('YYYY-MM-DD HH:mm:ss')}</Text>
                             <Text>Transaction ID: {item.tranId}</Text>
                             <Text
                                 style={{ color: item.operation === 'SEND' ? 'blue' : 'red' }}
                             >Operation: {item.operation}</Text>
+                            <Text>Point: {item.point}</Text>
                             <Text>To: {item.to}</Text>
                             <Text>From: {item.from}</Text>
                         </View>
                     )}
                     onEndReachedThreshold={0}
                     onEndReached={this.retrieveMore}
+                    ListHeaderComponent={this.renderHeader}
+                    ListFooterComponent={this.renderFooter}
+                    onRefresh={this.retrieveData}
+                    refreshing={this.state.refreshing}
                 />
             </View>
         );
