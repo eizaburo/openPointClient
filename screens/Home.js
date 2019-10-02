@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { updateEmail } from '../actions/user';
 
 //data
-import { caroucel_data } from '../data/caroucel';
+import { caroucel_data, caroucel_data_afs } from '../data/caroucel';
 
 //caroucel
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -17,7 +17,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 class Home extends React.Component {
 
     state = {
-        data: caroucel_data,
+        data: caroucel_data_afs,
         activeSlide: 0,
         overlaySpinner: false,
     }
@@ -25,7 +25,7 @@ class Home extends React.Component {
     _renderItem = ({ item, index }) => {
         return (
             <TouchableHighlight
-                onPress={() => Linking.openURL(item.url)}
+                onPress={() => Linking.openURL(item.web)}
             >
                 <Image source={{ url: item.url }} style={{ width: '100%', height: '100%' }} />
             </TouchableHighlight>
@@ -142,7 +142,7 @@ class Home extends React.Component {
                         itemWidth={Dimensions.get("window").width * 0.6}
                         itemHeight={200}
                         sliderWidth={Dimensions.get("window").width * 1.0}
-                        // containerCustomStyle={{ backgroundColor: "#eee" }}
+                        containerCustomStyle={{ backgroundColor: "#f0ffff" }}
                         onSnapToItem={index => this.setState({ activeSlide: index })}
                         loop
                         autoplay
@@ -151,6 +151,7 @@ class Home extends React.Component {
                         dotsLength={this.state.data.length}
                         activeDotIndex={this.state.activeSlide}
                         containerStyle={{ paddingVertical: 10 }}
+                        dotStyle={{backgroundColor:'#1e90ff'}}
                     />
                 </View>
                 <Spinner

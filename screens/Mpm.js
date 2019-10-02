@@ -58,13 +58,15 @@ class Mpm extends React.Component {
                     // //自分の減算処理
                     const myNowPoint = myDoc.data().point;
                     myNewPoint = Number(myNowPoint) - Number(values.point);
-                    if(myNewPoint < 0) throw new Error("残高が不足しています。");
+                    if (myNewPoint < 0) throw new Error("残高が不足しています。");
                     await transaction.update(myDocRef, {
                         point: myNewPoint,
                     })
 
                     //トランザクション情報書き込み（これはトランザクション処理ではない）
-                    const tran = await db.collection('transactions').add({
+                    tranId = await db.collection('transactions').doc().id;
+                    const tran = await db.collection('transactions').doc(tranId).set({
+                        tranId: tranId,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         operation: values.operation,
                         to: yourUid,
@@ -75,9 +77,6 @@ class Mpm extends React.Component {
                         yourNowPoint: yourNowPoint,
                         yourNewPoint: yourNewPoint,
                     });
-
-                    tranId = tran.id;
-
                 });
 
                 //表示更新
@@ -131,7 +130,9 @@ class Mpm extends React.Component {
                     })
 
                     //トランザクション情報書き込み
-                    const tran = await db.collection('transactions').add({
+                    tranId = await db.collection('transactions').doc().id;
+                    const tran = await db.collection('transactions').doc(tranId).set({
+                        tranId: tranId,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         operation: values.operation,
                         to: myUid,
@@ -142,9 +143,6 @@ class Mpm extends React.Component {
                         yourNowPoint: yourNowPoint,
                         yourNewPoint: yourNewPoint,
                     });
-
-                    tranId = tran.id;
-
                 });
 
                 //表示更新
