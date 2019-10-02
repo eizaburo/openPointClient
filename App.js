@@ -32,10 +32,10 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import userReducer from './reducers/user';
-import { getUser } from './actions/user';
+import { getUser, updatePoint } from './actions/user';
 
 //firebase
-import Firebase from './config/Firebase';
+import Firebase, { db } from './config/Firebase';
 
 //SignedOutTop
 const SignedOutTop = createStackNavigator(
@@ -247,6 +247,27 @@ export default class App extends React.Component {
             }
         });
 
+        //自分のDBの変化を監視
+        Firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                this.docRef = db.collection('users').doc(user.uid);
+                this.doc_unsubscribe = this.docRef.onSnapshot(this.onDocumentUpdate);
+            } else {
+                console.log('no user');
+            }
+        })
+    }
+
+    onDocumentUpdate = (querySnapShot) => {
+        //最初に一度実行されてしまう・・・
+        // console.log(querySnapShot.data());
+        store.dispatch(updatePoint(querySnapShot.data().point));
+    }
+
+    componentWillUnmount = () => {
+        //実行されない
+        console.log('unsubscribe');
+        this.doc_unsubscribe();
     }
 
     render() {
