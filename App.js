@@ -82,6 +82,13 @@ const HomeStack = createStackNavigator(
         _Scan: {
             screen: Scan,
         }
+    },
+    {
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerStyle: {
+                backgroundColor: "#f0ffff",
+            },
+        }),
     }
 );
 
