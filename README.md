@@ -22,6 +22,7 @@ Openなポイントアプリのクライアント。
 * expo-permissions
 * react-native-loading-spinner-overlay
 * react-native-icon-badge
+* expo-sensors
 
 ## 検討コンポーネント
 

@@ -12,10 +12,14 @@ import { connect } from 'react-redux';
 //moment
 import moment from 'moment';
 
+//pedometer
+import { Pedometer } from "expo-sensors";
+
 class Profile extends React.Component {
 
     state = {
         loading: false,
+        walking: 0,
     }
 
     handleSignOut = () => {
@@ -31,6 +35,21 @@ class Profile extends React.Component {
             })
     }
 
+    pedometerSubscribe = () => {
+        this._subscription = Pedometer.watchStepCount(result => {
+            this.setState({ walking: result.steps });
+        });
+    }
+
+    componentDidMount = () => {
+        this.pedometerSubscribe();
+    }
+
+    componentWillUnmount = () => {
+        this._subscription && this._subscription.remove();
+        this._subscription = null;
+    }
+
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: "#eee" }}>
@@ -40,7 +59,7 @@ class Profile extends React.Component {
                         title="OP"
                         source={{ uri: "http://www.bluecode.jp/images/shiro.jpg" }}
                         rounded
-                        onPress={()=>alert("変更しますか?")}
+                        onPress={() => alert("変更しますか?")}
                     />
                 </View>
                 <Text style={{ alignSelf: 'center', marginBottom: 20 }}>基本情報</Text>
@@ -69,6 +88,12 @@ class Profile extends React.Component {
                     <ListItem
                         title={this.props.userData.user.point.toString()}
                         leftIcon={<Icon5 name={'product-hunt'} size={20} color="#ff69b4" />}
+                        bottomDivider
+                        titleStyle={{ color: "#aaa", fontSize: 16 }}
+                    />
+                    <ListItem
+                        title={this.state.walking.toString()}
+                        leftIcon={<Icon5 name={'walking'} size={20} color="#8b008b" />}
                         bottomDivider
                         titleStyle={{ color: "#aaa", fontSize: 16 }}
                     />

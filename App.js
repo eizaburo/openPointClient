@@ -303,7 +303,7 @@ export default class App extends React.Component {
     componentWillUnmount = () => {
         //実行されない
         console.log('unsubscribe');
-        this.doc_unsubscribe();
+        this.doc_unsubscribe.remove(); //
     }
 
     render() {
