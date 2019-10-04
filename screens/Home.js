@@ -37,7 +37,7 @@ class Home extends React.Component {
         // console.log(this.state.data);
 
         return (
-            <View style={{ flex: 1, alignItems: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'center', backgroundColor: "#f0ffff" }}>
                 <TouchableHighlight
                     style={{
                         marginTop: 20,
@@ -100,7 +100,7 @@ class Home extends React.Component {
                 <View
                     style={{ flexDirection: "row" }}
                 >
-                    <View style={{ backgroundColor: "#fff", flex: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <Button
                             type="outline"
                             title="QRを表示する"
@@ -113,7 +113,7 @@ class Home extends React.Component {
                             buttonStyle={{ height: 60, borderWidth: 1 }}
                         />
                     </View>
-                    <View style={{ backgroundColor: "#fff", flex: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <Button
                             type="outline"
                             title="QRを読み取る"
@@ -153,7 +153,7 @@ class Home extends React.Component {
                         dotsLength={this.state.data.length}
                         activeDotIndex={this.state.activeSlide}
                         containerStyle={{ paddingVertical: 10 }}
-                        dotStyle={{backgroundColor:'#1e90ff'}}
+                        dotStyle={{ backgroundColor: '#1e90ff' }}
                     />
                 </View>
                 <Spinner
