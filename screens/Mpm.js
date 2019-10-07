@@ -142,6 +142,7 @@ class Mpm extends React.Component {
                         myNewPoint: myNewPoint,
                         yourNowPoint: yourNowPoint,
                         yourNewPoint: yourNewPoint,
+                        tranOwner: myUid,
                     });
                 });
 

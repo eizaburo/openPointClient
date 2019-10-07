@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Card, Input, Button } from 'react-native-elements';
 
 //redux
@@ -34,55 +34,60 @@ class SignInOrUp extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
-                <Formik
-                    initialValues={{ email: '', password: '' }}
-                    onSubmit={values => this.handleSignIn(values.email, values.password)}
-                    validationSchema={Yup.object().shape({
-                        email: Yup.string().email().required(),
-                        password: Yup.string().required(),
-                    })}
-                >
-                    {
-                        ({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
-                            <Card
-                                title="ログイン"
-                                containerStyle={{ marginTop: 20 }}
-                            >
-                                <Input
-                                    label="Email"
-                                    labelStyle={{ marginTop: 10 }}
-                                    autoCapitalize="none"
-                                    value={values.email}
-                                    onChangeText={handleChange('email')}
-                                    onBlur={handleBlur('email')}
-                                    errorMessage={errors.email && touched.email ? errors.email : null}
-                                />
-                                <Input
-                                    label="パスワード"
-                                    labelStyle={{ marginTop: 10 }}
-                                    secureTextEntry
-                                    value={values.password}
-                                    onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
-                                    errorMessage={errors.password && touched.password ? errors.password : null}
-                                />
-                                <Button
-                                    title="ログイン"
-                                    buttonStyle={{ marginTop: 20 }}
-                                    onPress={handleSubmit}
-                                    loading={this.state.loading}
-                                />
-                                <Button
-                                    title="新規登録はこちら"
-                                    buttonStyle={{ marginTop: 20, backgroundColor: "#3cb371" }}
-                                    onPress={() => this.props.navigation.navigate('SignUp')}
-                                />
-                            </Card>
-                        )
-                    }
-                </Formik>
-            </View>
+            <ScrollView>
+                <View style={{ flex: 1 }}>
+                    <KeyboardAvoidingView behavior="position">
+
+                        <Formik
+                            initialValues={{ email: '', password: '' }}
+                            onSubmit={values => this.handleSignIn(values.email, values.password)}
+                            validationSchema={Yup.object().shape({
+                                email: Yup.string().email().required(),
+                                password: Yup.string().required(),
+                            })}
+                        >
+                            {
+                                ({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
+                                    <Card
+                                        title="ログイン"
+                                        containerStyle={{ marginTop: 20 }}
+                                    >
+                                        <Input
+                                            label="Email"
+                                            labelStyle={{ marginTop: 10 }}
+                                            autoCapitalize="none"
+                                            value={values.email}
+                                            onChangeText={handleChange('email')}
+                                            onBlur={handleBlur('email')}
+                                            errorMessage={errors.email && touched.email ? errors.email : null}
+                                        />
+                                        <Input
+                                            label="パスワード"
+                                            labelStyle={{ marginTop: 10 }}
+                                            secureTextEntry
+                                            value={values.password}
+                                            onChangeText={handleChange('password')}
+                                            onBlur={handleBlur('password')}
+                                            errorMessage={errors.password && touched.password ? errors.password : null}
+                                        />
+                                        <Button
+                                            title="ログイン"
+                                            buttonStyle={{ marginTop: 20 }}
+                                            onPress={handleSubmit}
+                                            loading={this.state.loading}
+                                        />
+                                        <Button
+                                            title="新規登録はこちら"
+                                            buttonStyle={{ marginTop: 20, backgroundColor: "#3cb371" }}
+                                            onPress={() => this.props.navigation.navigate('SignUp')}
+                                        />
+                                    </Card>
+                                )
+                            }
+                        </Formik>
+                    </KeyboardAvoidingView>
+                </View >
+            </ScrollView>
         );
     }
 }

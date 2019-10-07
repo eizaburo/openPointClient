@@ -22,6 +22,8 @@ import Cpm from './screens/Cpm';
 import Mpm from './screens/Mpm';
 import History from './screens/History';
 import Scan from './screens/Scan';
+import Shop from './screens/Shop';
+import Exchange from './screens/Exchange';
 
 //icon
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -81,7 +83,13 @@ const HomeStack = createStackNavigator(
         },
         _Scan: {
             screen: Scan,
-        }
+        },
+        _Shop: {
+            screen: Shop,
+        },
+        _Exchange: {
+            screen: Exchange,
+        },
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({

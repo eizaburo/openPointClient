@@ -32,9 +32,10 @@ class SignUp extends React.Component {
     render() {
         // console.log(this.props.userData);
         return (
-            <View style={{ flex: 1 }}>
-                <KeyboardAvoidingView behavior="position">
-                    <ScrollView>
+            <ScrollView>
+                <View style={{ flex: 1 }}>
+                    <KeyboardAvoidingView behavior="position">
+
                         <Formik
                             initialValues={{ email: '', password: '', confirm: '', tel: '', check: false }}
                             onSubmit={values => this.handleSignUp(values.email, values.password)}
@@ -122,9 +123,9 @@ class SignUp extends React.Component {
                         </Formik>
                         {/* ScrollViewで途切れ防止 */}
                         {/* <View style={{ flex: 1, marginBottom: 300 }}></View> */}
-                    </ScrollView>
-                </KeyboardAvoidingView>
-            </View>
+                    </KeyboardAvoidingView>
+                </View>
+            </ScrollView>
         );
     }
 }
