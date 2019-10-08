@@ -24,6 +24,7 @@ Openなポイントアプリのクライアント。
 * react-native-icon-badge
 * expo-sensors
 * react-native-maps
+* lodash
 
 ## 検討コンポーネント
 

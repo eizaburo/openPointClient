@@ -7,6 +7,7 @@ import {
     UPDATE_TEL,
     UPDATE_POINT
 } from '../actions/user';
+import lodash from 'lodash';
 
 const initialState = {
     user: {
@@ -20,25 +21,17 @@ const initialState = {
 }
 
 const user = (state = initialState, action) => {
+    // console.log(state);
+    console.log(state);
     switch (action.type) {
         case SIGNIN:
-            return {
-                user: {
-                    email: action.payload.email,
-                    point: action.payload.point,
-                    uid: action.payload.uid,
-                    createdAt: action.payload.createdAt,
-                }
-            }
+            //state.userにfirebaseのuserをマージ(state自体が更新される)
+            lodash.merge(state.user, action.payload);
+            return state;
         case SIGNUP:
-            return {
-                user: {
-                    email: state.user.email,
-                    uid: action.payload.uid,
-                    point: action.payload.point,
-                    createdAt: action.payload.createdAt,
-                }
-            };
+            //state.userにfirebaseのuserをマージ(state自体が更新される)
+            lodash.merge(state.user, action.payload);
+            return state;
         case UPDATE_EMAIL:
             let mailState = { ...state };
             mailState.user.email = action.payload;
