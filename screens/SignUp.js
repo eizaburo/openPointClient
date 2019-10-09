@@ -19,12 +19,13 @@ class SignUp extends React.Component {
         loading: false,
     }
 
-    handleSignUp = async (email, password) => {
+    handleSignUp = async (email, password, tel) => {
         //spinner
         this.setState({ loading: true });
         //storeに保存
         this.props.updateEmail(email);
         this.props.updatePassword(password);
+        this.props.updateTel(tel);
         //action呼び出し
         this.props.signUp();
     }
@@ -38,7 +39,7 @@ class SignUp extends React.Component {
 
                         <Formik
                             initialValues={{ email: '', password: '', confirm: '', tel: '', check: false }}
-                            onSubmit={values => this.handleSignUp(values.email, values.password)}
+                            onSubmit={values => this.handleSignUp(values.email, values.password, values.tel)}
                             validationSchema={Yup.object().shape({
                                 email: Yup.string().email().required(),
                                 password: Yup

@@ -282,6 +282,7 @@ export default class App extends React.Component {
 
         Firebase.auth().onAuthStateChanged(user => {
             if (user) {
+                // console.log(user.uid);
                 store.dispatch(getUser(user.uid));
                 if (store.getState().userData.user != null) {
 

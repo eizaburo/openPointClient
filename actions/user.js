@@ -10,6 +10,8 @@ export const UPDATE_POINT = 'UPDATE_POINT';
 export const SIGNIN = 'SIGNIN';
 export const SIGNUP = 'SIGNUP';
 
+export const CLEAR_ALL = 'CLEAR_ALL';
+
 export const updateEmail = email => {
     return {
         type: UPDATE_EMAIL,
@@ -45,6 +47,13 @@ export const updatePoint = point => {
     }
 }
 
+export const clearAll = () => {
+    return {
+        type: CLEAR_ALL,
+        payload: null,
+    }
+}
+
 export const signIn = () => {
     return async (dispatch, getState) => {
         try {
@@ -61,6 +70,7 @@ export const getUser = uid => {
     return async (dispatch, getState) => {
         try {
             const user = await db.collection('users').doc(uid).get();
+            console.log('get user');
             dispatch({
                 type: SIGNIN,
                 payload: user.data(),
@@ -74,7 +84,7 @@ export const getUser = uid => {
 export const signUp = () => {
     return async (dispatch, getState) => {
         try {
-            const { email, password } = getState().userData.user;
+            const { email, password, tel } = getState().userData.user;
             const response = await Firebase.auth().createUserWithEmailAndPassword(email, password);
             if (response.user.uid) {
 
@@ -82,6 +92,7 @@ export const signUp = () => {
                     uid: response.user.uid,
                     email: email,
                     point: 0,
+                    tel: tel,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 }
 

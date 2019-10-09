@@ -8,6 +8,7 @@ import Firebase from '../config/Firebase';
 
 //redux
 import { connect } from 'react-redux';
+import { clearAll, updateTel } from '../actions/user';
 
 //moment
 import moment from 'moment';
@@ -22,17 +23,15 @@ class Profile extends React.Component {
         walking: 0,
     }
 
-    handleSignOut = () => {
-        this.setState({ loading: true });
-        Firebase.auth().signOut()
-            .then(() => {
-                this.setState({ loading: false });
-                this.props.navigation.navigate('SignedOut');
-            })
-            .catch(e => {
-                this.setState({ loading: false });
-                console.log("firebase signout error:" + e);
-            })
+    handleSignOut = async () => {
+        try {
+            this.setState({ loading: true });
+            await Firebase.auth().signOut();
+            this.props.clearAll();
+        } catch (e) {
+            this.setState({ loading: false });
+            console.log(e);
+        }
     }
 
     pedometerSubscribe = () => {
@@ -79,7 +78,7 @@ class Profile extends React.Component {
                             onPress={() => alert("EMail")}
                         />
                         <ListItem
-                            title={'TEL:'}
+                            title={this.props.userData.user.tel}
                             leftIcon={<Icon5 name={'phone'} size={20} color="#ffd700" />}
                             bottomDivider
                             chevron
@@ -118,5 +117,12 @@ const mapStateToProps = state => (
     }
 );
 
-export default connect(mapStateToProps, null)(Profile);
+const mapDispatchToProps = dispatch => (
+    {
+        clearAll: () => dispatch(clearAll()),
+        updateTel: tel => dispatch(updateTel(tel)),
+    }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
 // export default Profile;

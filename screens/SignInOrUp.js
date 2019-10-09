@@ -4,7 +4,7 @@ import { Card, Input, Button } from 'react-native-elements';
 
 //redux
 import { connect } from 'react-redux';
-import { updateEmail, updatePassword, updateConfirm, signIn } from '../actions/user';
+import { updateEmail, updatePassword, updateConfirm, signIn, clearAll } from '../actions/user';
 
 //formik, yup
 import { Formik } from 'formik';
@@ -19,20 +19,23 @@ class SignInOrUp extends React.Component {
         loading: false,
     }
 
-    handleSignIn = (email, password) => {
-        this.setState({ loading: true });
-        //store
-        this.props.updateEmail(email);
-        this.props.updatePassword(password);
-        //login
-        this.props.signIn();
-    }
+    handleSignIn = async (email, password) => {
+        try {
+            this.setState({ loading: true });
+            //store
+            this.props.updateEmail(email);
+            this.props.updatePassword(password);
 
-    getUser = uid => {
-
+            //login
+            await this.props.signIn();
+        } catch (e) {
+            this.setState({ loading: false });
+            console.log(e);
+        }
     }
 
     render() {
+        console.log("hoge=" + JSON.stringify(this.props.userData));
         return (
             <ScrollView>
                 <View style={{ flex: 1 }}>
@@ -104,6 +107,7 @@ const mapDispatchToProps = dispatch => (
         updatePassword: password => dispatch(updatePassword(password)),
         updateConfirm: confirm => dispatch(updateConfirm(confirm)),
         signIn: () => dispatch(signIn()),
+        clearAll: () => dispatch(clearAll()),
     }
 );
 

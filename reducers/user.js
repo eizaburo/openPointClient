@@ -5,7 +5,8 @@ import {
     UPDATE_PASSWORD,
     UPDATE_CONFIRM,
     UPDATE_TEL,
-    UPDATE_POINT
+    UPDATE_POINT,
+    CLEAR_ALL
 } from '../actions/user';
 import lodash from 'lodash';
 
@@ -21,8 +22,6 @@ const initialState = {
 }
 
 const user = (state = initialState, action) => {
-    // console.log(state);
-    console.log(state);
     switch (action.type) {
         case SIGNIN:
             //state.userにfirebaseのuserをマージ(state自体が更新される)
@@ -52,6 +51,11 @@ const user = (state = initialState, action) => {
             let pointState = { ...state };
             pointState.user.point = action.payload;
             return pointState;
+        case CLEAR_ALL:
+            return {
+                user:{
+                }
+            };
         default:
             return state;
     }
