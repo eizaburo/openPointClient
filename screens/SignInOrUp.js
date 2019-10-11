@@ -35,7 +35,7 @@ class SignInOrUp extends React.Component {
     }
 
     render() {
-        console.log("hoge=" + JSON.stringify(this.props.userData));
+        // console.log("hoge=" + JSON.stringify(this.props.userData));
         return (
             <ScrollView>
                 <View style={{ flex: 1 }}>
