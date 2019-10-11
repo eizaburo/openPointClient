@@ -68,6 +68,8 @@ const HomeStack = createStackNavigator(
         _Home: {
             screen: Home,
             navigationOptions: ({ navigation }) => ({
+                title: 'Open Point Clinet',
+                headerTitleStyle: { color: "#666", fontWeight: "normal", fontSize:14 },
                 headerLeft: (<Icon name="bars" size={24} onPress={() => navigation.toggleLeftDrawer()} style={{ paddingLeft: 20 }} />),
                 headerRight: (<Icon name="cog" size={24} onPress={() => navigation.toggleRightDrawer()} style={{ paddingRight: 20 }} />),
             })
@@ -282,7 +284,7 @@ export default class App extends React.Component {
 
         Firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                
+
                 store.dispatch(getUser(user.uid));
                 if (store.getState().userData.user != null) {
 
